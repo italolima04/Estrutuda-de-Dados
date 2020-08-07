@@ -40,6 +40,8 @@ class vector {
     } else {
       // Realocando Vetor. +1 Posição.
       vetor = (int *)(realloc(vetor, sizeof(int)));
+      tamanho++;
+      vetor[tamanho] = elemento;
     }
   }
 
