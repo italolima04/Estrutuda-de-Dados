@@ -62,7 +62,7 @@ bool list::remover(int elemento) {
     } else {
       no_encadeado* anterior = obter_no_em(indice_aux - 1);
       anterior->proximo = removido->proximo;
-      delete[] removido;
+      delete[] removido;+
       this->tamanho--;
       return true;
     }

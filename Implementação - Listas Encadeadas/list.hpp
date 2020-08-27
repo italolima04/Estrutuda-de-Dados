@@ -4,19 +4,18 @@ class list {
   class no_encadeado {
    public:
     int valor;
-
     // Referência para o nó que vem após o atual
     no_encadeado* proximo;
-
-    friend class list;
 
     // Construtor
     no_encadeado(int valor, no_encadeado* proximo = nullptr);
   };
 
   // Contagem da quantidade de elementos presentes na lista.
-  no_encadeado* primeiro;
   unsigned int tamanho;
+
+  // Ponteiro para o primeiro nó da lista
+  no_encadeado* primeiro;
 
  public:
   // Construtores
