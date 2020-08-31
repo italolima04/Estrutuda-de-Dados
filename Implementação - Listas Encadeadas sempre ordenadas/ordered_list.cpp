@@ -69,18 +69,17 @@ bool ordered_list::remover(int elemento) {
       return false;
     }
     unsigned int indice_aux = obter_indice_de(elemento);
+    no_encadeado* removido = obter_no_em(indice_aux);
     if (indice_aux == 0) {
-      no_encadeado* removido = obter_no_em(indice_aux);
-      this->primeiro->proximo = removido->proximo;
+      this->primeiro = removido->proximo;
       delete[] removido;
       this->tamanho--;
       return true;
     } else {
-      no_encadeado* removido = obter_no_em(indice_aux);
       no_encadeado* anterior = obter_no_em(indice_aux - 1);
       anterior->proximo = removido->proximo;
       delete[] removido;
-      this->tamanho--;
+      +this->tamanho--;
       return true;
     }
   }
@@ -115,8 +114,13 @@ bool ordered_list::remover_de(unsigned int indice) {
     return false;
   } else {
     no_encadeado* removido = obter_no_em(indice);
-    remover(removido->valor);
+    bool aux = remover(removido->valor);
+    if (aux)
+      return true;
+    else
+      return false;
   }
+  return false;
 }
 
 // Retornar o valor associado ao índice "indice".
@@ -130,13 +134,14 @@ int ordered_list::obter_elemento_em(unsigned int indice) {
     if (indice >= this->tamanho) {
       return std::numeric_limits<int>::max();
     } else {
-      no_encadeado* no = this->primeiro;
-      for (unsigned int i = 0; i < indice; i++) {
-        no = no->proximo;
+      no_encadeado* no = obter_no_em(indice);
+      if (no == nullptr) {
+        return std::numeric_limits<int>::max();
       }
       return no->valor;
     }
   }
+  return std::numeric_limits<int>::max();
 }
 
 // Retornar o índice associado a "elemento".
@@ -147,20 +152,17 @@ unsigned int ordered_list::obter_indice_de(int elemento) {
   if (!(this->tamanho > 0)) {
     return std::numeric_limits<unsigned int>::max();
   } else {
-    if (!(pertence(elemento))) {
-      // return std::numeric_limits<unsigned int>::max();
-    } else {
-      unsigned int indice = 0;
-      no_encadeado* no = this->primeiro;
-      while (no != nullptr) {
-        if (no->valor == elemento) {
-          return indice;
-        }
-        no = no->proximo;
-        indice++;
+    unsigned int indice = 0;
+    no_encadeado* no = this->primeiro;
+    while (no != nullptr) {
+      if (no->valor == elemento) {
+        return indice;
       }
+      indice++;
+      no = no->proximo;
     }
   }
+  return std::numeric_limits<unsigned int>::max();
 }
 
 // --- Métodos Auxiliares ---
@@ -172,16 +174,13 @@ ordered_list::no_encadeado* ordered_list::obter_no_em(unsigned int indice) {
   if (!(this->tamanho > 0)) {
     return nullptr;
   } else {
-    if (indice > this->tamanho) {
-      return nullptr;
-    } else {
-      no_encadeado* no = this->primeiro;
-      for (unsigned int i = 0; i < indice; i++) {
-        no = no->proximo;
-      }
-      return no;
+    no_encadeado* no = this->primeiro;
+    for (unsigned int i = 0; i < indice; i++) {
+      no = no->proximo;
     }
+    return no;
   }
+  return nullptr;
 }
 
 // Desejamos obter o próprio nó que veja **antes** de algum com o valor
