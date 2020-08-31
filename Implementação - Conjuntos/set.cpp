@@ -105,19 +105,15 @@ void set::intersecao_com(set const &conjunto) {
 
 // Testar se este conjunto (`this`) está contido no outro informado.
 bool set::esta_contido_em(set const &conjunto) const {
-  if (tamanho > conjunto.tamanho) {
-    return false;
+  if (tamanho == 0) {
+    return true;
   } else {
-    if (tamanho == 0) {
-      return true;
-    } else {
-      for (unsigned int i = 0; i < tamanho; i++) {
-        if (!(conjunto.pertence(vetor[i]))) {
-          return false;
-        }
+    for (unsigned int i = 0; i < tamanho; i++) {
+      if (!(conjunto.pertence(vetor[i]))) {
+        return false;
       }
-      return true;
     }
+    return true;
   }
   return false;
 }
