@@ -30,16 +30,9 @@ list::list(unsigned int tamanho, int inicial) {
 
 // Inserir "elemento" na coleção. Sempre deve executar a inserção.
 void list::inserir(int elemento) {
-  if (this->tamanho == 0) {
-    no_encadeado* novo_no = new no_encadeado(elemento);
+    no_encadeado* novo_no = new no_encadeado(elemento, this->primeiro);
     this->primeiro = novo_no;
     this->tamanho++;
-  } else {
-    no_encadeado* anterior = obter_no_em(tamanho - 1);
-    no_encadeado* novo_no = new no_encadeado(elemento);
-    anterior->proximo = novo_no;
-    this->tamanho++;
-  }
 }
 
 // Remover "elemento" da coleção.
